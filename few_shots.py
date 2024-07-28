@@ -1,14 +1,12 @@
 few_shots = [
     {
-        'Question' : "Total Number of Goals Scored by Players Born Before 1990?",
-        'SQLQuery' : "SELECT SUM(PS.Goals) AS TotalGoals FROM Players P JOIN PlayerStats PS ON P.PlayerID = PS.PlayerID WHERE P.DateOfBirth < '1990-01-01';",
-        'SQLResult': "Result of the SQL query",
-        'Answer' : "2537"
+        'input' : "Total Number of Goals Scored by Players Born Before 1990?",
+        'query' : "SELECT SUM(PS.Goals) AS TotalGoals FROM Players P JOIN PlayerStats PS ON P.PlayerID = PS.PlayerID WHERE P.DateOfBirth < '1990-01-01';"
      },
 
     {
-        'Question': "Name of the League with the Highest Average Stadium Capacity",
-        'SQLQuery': """
+        'input': "Name of the League with the Highest Average Stadium Capacity",
+        'query': """
                         SELECT L.LeagueName
                         FROM Leagues L
                         JOIN Teams T ON L.LeagueID = T.LeagueID
@@ -16,14 +14,12 @@ few_shots = [
                         GROUP BY L.LeagueID
                         ORDER BY AVG(S.Capacity) DESC
                         LIMIT 1;
-                    """,
-        'SQLResult': "Result of the SQL query",
-        'Answer': "La Liga"
+                    """
      },
 
     {
-        'Question': "Name of the Player with the Highest Goals-to-Games Ratio" ,
-         'SQLQuery' :   """
+        'input': "Name of the Player with the Highest Goals-to-Games Ratio" ,
+         'query' :   """
                         SELECT CONCAT(P.FirstName, ' ', P.LastName) AS PlayerName
                         FROM Players P
                         JOIN PlayerStats PS ON P.PlayerID = PS.PlayerID
@@ -37,26 +33,22 @@ few_shots = [
                         ORDER BY (PS.Goals::FLOAT / GP.GamesPlayed) DESC
                         LIMIT 1;
 
-                        """,
-         'SQLResult': "Result of the SQL query",
-         'Answer': "Lionel Messi"
+                        """
     } ,
 
     {
-        'Question' : "Total Number of Matches Played in Stadiums with Capacity Over 50,000" ,
-        'SQLQuery': '''
+        'input' : "Total Number of Matches Played in Stadiums with Capacity Over 50,000" ,
+        'query': '''
                         SELECT COUNT(M.MatchID) AS TotalMatches
                         FROM Matches M
                         JOIN Stadiums S ON M.StadiumID = S.StadiumID
                         WHERE S.Capacity > 50000;
-                    ''',
-        'SQLResult': "Result of the SQL query",
-        'Answer' : "36"
+                    '''
     },
 
     {
-        'Question' : "Name of the Team with the Most Players Having More Than 10 Goals" ,
-        'SQLQuery': '''
+        'input' : "Name of the Team with the Most Players Having More Than 10 Goals" ,
+        'query': '''
                         SELECT T.TeamName
                         FROM Teams T
                         JOIN Players P ON T.TeamID = P.TeamID
@@ -65,14 +57,12 @@ few_shots = [
                         GROUP BY T.TeamID
                         ORDER BY COUNT(P.PlayerID) DESC
                         LIMIT 1;
-                    ''',
-        'SQLResult': "Result of the SQL query",
-        'Answer' : "FC Barcelona"
+                    '''
     },
 
     {
-        'Question' : "The League with the most average number of goals scored" ,
-        'SQLQuery': '''
+        'input' : "The League with the most average number of goals scored" ,
+        'query': '''
                         SELECT L.LeagueName
                         FROM Leagues L
                         JOIN Teams T ON L.LeagueID = T.LeagueID
@@ -80,28 +70,24 @@ few_shots = [
                         GROUP BY L.LeagueID
                         ORDER BY AvgGoals DESC
                         LIMIT 1;
-                    ''',
-        'SQLResult': "Result of the SQL query",
-        'Answer' : "Major League Soccer"
+                    '''
     },
 
     {
-        'Question' : "Name of the Player with the Most Red and Yellow Cards Combined" ,
-        'SQLQuery': '''
+        'input' : "Name of the Player with the Most Red and Yellow Cards Combined" ,
+        'query': '''
                         SELECT L.LeagueName
                         SELECT CONCAT(P.FirstName, ' ', P.LastName) AS PlayerName
                         FROM Players P
                         JOIN PlayerStats PS ON P.PlayerID = PS.PlayerID
                         ORDER BY (PS.RedCards + PS.YellowCards) DESC
                         LIMIT 1;
-                    ''',
-        'SQLResult': "Result of the SQL query",
-        'Answer' : "Cristiano Ronaldo"
+                    '''
     },
 
     {
-        'Question' : "Name of the Coach Who Has Coached the Most Different Teams" ,
-        'SQLQuery': '''
+        'input' : "Name of the Coach Who Has Coached the Most Different Teams" ,
+        'query': '''
                         SELECT CONCAT(C.FirstName, ' ', C.LastName) AS CoachName
                         FROM Coaches C
                         JOIN (
@@ -111,8 +97,6 @@ few_shots = [
                         ) T ON C.CoachID = T.CoachID
                         ORDER BY T.NumTeams DESC
                         LIMIT 1;
-                    ''',
-        'SQLResult': "Result of the SQL query",
-        'Answer' : "Cristiano Ronaldo"
+                    '''
     }
 ]
