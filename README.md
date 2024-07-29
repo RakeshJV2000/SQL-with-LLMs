@@ -24,6 +24,8 @@
 - **Retriever**: The retriever component plays a crucial role in selecting the most relevant examples from the vector database, enhancing the generation process by providing contextually similar instances.
 - **Database Connection**: The chain includes a connection to a PostgreSQL database, enabling direct access to the database for executing SQL queries and retrieving real-time data.
 
+Link to the official [LangChain page](https://python.langchain.com/v0.1/docs/use_cases/sql/agents/)
+
 ## Details about DB
 A Relational database system to manage football databases. Using Postgres as the database server, a comprehensive database was created that includes tables for leagues, stadiums, coaches, teams, players, matches, and player statistics. The UML model was followed for the implementation, and SQL was incorporated for creating, populating, and querying the database.
 
