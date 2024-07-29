@@ -1,0 +1,595 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.3
+-- Dumped by pg_dump version 16.3
+
+-- Started on 2024-06-29 12:59:30 IST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 217 (class 1259 OID 16818)
+-- Name: coaches; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.coaches (
+    coachid integer NOT NULL,
+    firstname character varying(50),
+    lastname character varying(50),
+    nationality character varying(50)
+);
+
+
+ALTER TABLE public.coaches OWNER TO postgres;
+
+--
+-- TOC entry 215 (class 1259 OID 16808)
+-- Name: leagues; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.leagues (
+    leagueid integer NOT NULL,
+    leaguename character varying(50),
+    country character varying(50),
+    numberofteams integer
+);
+
+
+ALTER TABLE public.leagues OWNER TO postgres;
+
+--
+-- TOC entry 220 (class 1259 OID 16853)
+-- Name: matches; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.matches (
+    matchid integer NOT NULL,
+    hometeamid integer,
+    awayteamid integer,
+    matchdate date,
+    stadiumid integer,
+    hometeamscore integer,
+    awayteamscore integer
+);
+
+
+ALTER TABLE public.matches OWNER TO postgres;
+
+--
+-- TOC entry 219 (class 1259 OID 16843)
+-- Name: players; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.players (
+    playerid integer NOT NULL,
+    firstname character varying(50),
+    lastname character varying(50),
+    dateofbirth date,
+    nationality character varying(50),
+    "position" character varying(50),
+    teamid integer,
+    jerseynumber integer,
+    height numeric(4,2),
+    weight numeric(5,2)
+);
+
+
+ALTER TABLE public.players OWNER TO postgres;
+
+--
+-- TOC entry 221 (class 1259 OID 16874)
+-- Name: playerstats; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.playerstats (
+    playerid integer NOT NULL,
+    goals integer,
+    assists integer,
+    redcards integer,
+    yellowcards integer,
+    tackles integer,
+    numberoftrophieswon integer
+);
+
+
+ALTER TABLE public.playerstats OWNER TO postgres;
+
+--
+-- TOC entry 216 (class 1259 OID 16813)
+-- Name: stadiums; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.stadiums (
+    stadiumid integer NOT NULL,
+    stadiumname character varying(50),
+    city character varying(50),
+    capacity integer
+);
+
+
+ALTER TABLE public.stadiums OWNER TO postgres;
+
+--
+-- TOC entry 218 (class 1259 OID 16823)
+-- Name: teams; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.teams (
+    teamid integer NOT NULL,
+    teamname character varying(50),
+    city character varying(50),
+    stadiumid integer,
+    coachid integer,
+    leagueid integer,
+    uclwon integer
+);
+
+
+ALTER TABLE public.teams OWNER TO postgres;
+
+--
+-- TOC entry 3626 (class 0 OID 16818)
+-- Dependencies: 217
+-- Data for Name: coaches; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.coaches (coachid, firstname, lastname, nationality) FROM stdin;
+1	Alex	Ferguson	Scotland
+2	Pep	Guardiola	Spain
+3	Antonio	Conte	Italy
+4	Jurgen	Klopp	Germany
+5	Xavi	Hernandez	Spain
+6	Carlo	Ancelotti	Italy
+7	Diego	Simeone	Argentina
+8	Thomas	Tuchel	Germany
+9	Brendan	Rodgers	Northern Ireland
+10	Mikel	Arteta	Spain
+11	Frank	Lampard	England
+12	Steven	Gerrard	England
+13	Sergio	Conceicao	Portugal
+14	Erik	ten Hag	Netherlands
+15	Bob	Bradley	USA
+16	Lucien	Favre	Switzerland
+17	Julian	Nagelsmann	Germany
+18	Zinedine	Zidane	France
+19	Unai	Emery	Spain
+20	Gian Piero	Gasperini	Italy
+21	Ole Gunnar	Solskjaer	Norway
+22	David	Moyes	Scotland
+23	Sean	Dyche	England
+24	Marcelo	Bielsa	Argentina
+25	Bruno	Lage	Portugal
+26	Steve	Bruce	England
+27	Roy	Hodgson	England
+28	Scott	Parker	England
+29	Thomas	Frank	Denmark
+30	Dean	Smith	England
+\.
+
+
+--
+-- TOC entry 3624 (class 0 OID 16808)
+-- Dependencies: 215
+-- Data for Name: leagues; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.leagues (leagueid, leaguename, country, numberofteams) FROM stdin;
+1	Premier League	England	20
+2	La Liga	Spain	20
+3	Serie A	Italy	20
+4	Bundesliga	Germany	18
+5	Ligue 1	France	20
+6	Eredivisie	Netherlands	18
+7	Primeira Liga	Portugal	18
+8	Scottish Premiership	Scotland	12
+9	Major League Soccer	USA	27
+10	Brasileirão	Brazil	20
+11	A-League	Australia	12
+12	Super Lig	Turkey	18
+13	Russian Premier League	Russia	16
+14	Belgian Pro League	Belgium	18
+15	Swiss Super League	Switzerland	10
+16	Austrian Bundesliga	Austria	12
+17	Danish Superliga	Denmark	14
+18	Norwegian Eliteserien	Norway	16
+19	Swedish Allsvenskan	Sweden	16
+20	Greek Super League	Greece	14
+\.
+
+
+--
+-- TOC entry 3629 (class 0 OID 16853)
+-- Dependencies: 220
+-- Data for Name: matches; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.matches (matchid, hometeamid, awayteamid, matchdate, stadiumid, hometeamscore, awayteamscore) FROM stdin;
+1	1	2	2023-08-15	1	2	3
+2	3	4	2023-08-16	3	1	1
+3	5	1	2023-08-17	5	3	2
+4	4	2	2023-08-18	4	0	0
+5	2	3	2023-08-19	22	2	1
+6	6	7	2023-08-20	6	1	2
+7	8	9	2023-08-21	8	3	3
+8	10	11	2023-08-22	10	2	2
+9	12	13	2023-08-23	12	0	1
+10	14	15	2023-08-24	14	1	1
+11	16	17	2023-08-25	16	3	2
+12	18	19	2023-08-26	18	0	2
+13	20	21	2023-08-27	20	1	3
+14	22	23	2023-08-28	23	2	2
+15	24	25	2023-08-29	24	3	1
+16	26	27	2023-08-30	27	0	0
+17	28	29	2023-09-01	28	2	3
+18	30	1	2023-09-02	30	1	1
+19	2	3	2023-09-03	22	4	1
+20	4	5	2023-09-04	4	0	2
+21	6	7	2023-09-05	6	2	2
+22	8	9	2023-09-06	8	1	0
+23	10	11	2023-09-07	10	2	3
+24	12	13	2023-09-08	12	1	2
+25	14	15	2023-09-09	14	3	1
+26	16	17	2023-09-10	16	0	1
+27	18	19	2023-09-11	18	2	2
+28	20	21	2023-09-12	20	1	3
+29	22	23	2023-09-13	23	4	0
+30	24	25	2023-09-14	24	1	1
+31	1	3	2023-09-15	1	2	1
+32	2	4	2023-09-16	22	3	3
+33	5	6	2023-09-17	5	4	2
+34	7	8	2023-09-18	7	1	0
+35	9	10	2023-09-19	9	2	1
+36	11	12	2023-09-20	11	0	2
+37	13	14	2023-09-21	13	1	1
+38	15	16	2023-09-22	15	3	4
+39	17	18	2023-09-23	17	0	0
+40	19	20	2023-09-24	19	2	3
+41	21	22	2023-09-25	21	1	2
+42	23	24	2023-09-26	23	3	3
+43	25	26	2023-09-27	25	4	1
+44	27	28	2023-09-28	27	0	2
+45	29	30	2023-09-29	29	1	1
+46	1	5	2023-09-30	31	2	2
+47	2	6	2023-10-01	32	3	1
+48	3	7	2023-10-02	33	1	2
+49	4	8	2023-10-03	34	2	3
+50	9	10	2023-10-04	35	1	0
+\.
+
+
+--
+-- TOC entry 3628 (class 0 OID 16843)
+-- Dependencies: 219
+-- Data for Name: players; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.players (playerid, firstname, lastname, dateofbirth, nationality, "position", teamid, jerseynumber, height, weight) FROM stdin;
+1	Cristiano	Ronaldo	1985-02-05	Portugal	Forward	1	7	1.87	83.00
+2	Lionel	Messi	1987-06-24	Argentina	Forward	5	10	1.70	72.00
+3	Kevin	De Bruyne	1991-06-28	Belgium	Midfielder	2	17	1.81	70.00
+4	Lautaro	Martinez	1997-08-22	Argentina	Forward	3	10	1.74	72.00
+5	Erling	Haaland	2000-07-21	Norway	Forward	4	9	1.94	88.00
+6	Neymar	Junior	1992-02-05	Brazil	Forward	5	11	1.75	68.00
+7	Harry	Kane	1993-07-28	England	Forward	11	10	1.88	86.00
+8	Robert	Lewandowski	1988-08-21	Poland	Forward	8	9	1.85	81.00
+9	Sadio	Mane	1992-04-10	Senegal	Forward	9	10	1.75	69.00
+10	Paul	Pogba	1993-03-15	France	Midfielder	1	6	1.91	84.00
+11	Mohamed	Salah	1992-06-15	Egypt	Forward	9	11	1.75	71.00
+12	Raheem	Sterling	1994-12-08	England	Forward	2	7	1.70	69.00
+13	Luka	Modric	1985-09-09	Croatia	Midfielder	7	10	1.72	66.00
+14	Kylian	Mbappe	1998-12-20	France	Forward	5	7	1.78	73.00
+15	Bruno	Fernandes	1994-09-08	Portugal	Midfielder	1	18	1.79	69.00
+16	Romelu	Lukaku	1993-05-13	Belgium	Forward	3	9	1.91	94.00
+17	Virgil	van Dijk	1991-07-08	Netherlands	Defender	9	4	1.93	92.00
+18	Sergio	Ramos	1986-03-30	Spain	Defender	5	4	1.84	82.00
+19	Toni	Kroos	1990-01-04	Germany	Midfielder	7	8	1.83	76.00
+20	Joshua	Kimmich	1995-02-08	Germany	Midfielder	8	6	1.77	73.00
+21	Philippe	Coutinho	1992-06-12	Brazil	Midfielder	6	10	1.72	68.00
+22	Marcus	Rashford	1997-10-31	England	Forward	1	10	1.85	70.00
+23	Eden	Hazard	1991-01-07	Belgium	Forward	7	7	1.75	74.00
+24	Zlatan	Ibrahimovic	1981-10-03	Sweden	Forward	3	11	1.95	95.00
+25	Gerard	Pique	1987-02-02	Spain	Defender	5	3	1.94	85.00
+26	Alisson	Becker	1992-10-02	Brazil	Goalkeeper	9	1	1.91	91.00
+27	Thibaut	Courtois	1992-05-11	Belgium	Goalkeeper	7	1	1.99	96.00
+28	Manuel	Neuer	1986-03-27	Germany	Goalkeeper	8	1	1.93	93.00
+29	Jan	Oblak	1993-01-07	Slovenia	Goalkeeper	7	1	1.88	87.00
+30	Keylor	Navas	1986-12-15	Costa Rica	Goalkeeper	5	1	1.85	80.00
+\.
+
+
+--
+-- TOC entry 3630 (class 0 OID 16874)
+-- Dependencies: 221
+-- Data for Name: playerstats; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.playerstats (playerid, goals, assists, redcards, yellowcards, tackles, numberoftrophieswon) FROM stdin;
+1	780	220	8	97	153	32
+2	750	280	6	50	87	38
+3	90	160	4	25	102	11
+4	74	31	2	15	59	6
+5	126	30	1	10	70	2
+6	265	168	5	45	62	20
+7	221	46	3	23	58	1
+8	344	50	1	37	45	25
+9	104	67	2	22	77	4
+10	45	55	1	19	88	7
+11	122	49	3	15	30	9
+12	99	92	0	10	40	14
+13	32	120	1	12	94	16
+14	225	111	3	30	66	10
+15	41	78	0	20	48	3
+16	137	31	2	17	90	5
+17	20	15	0	13	67	8
+18	104	29	4	28	92	21
+19	25	88	1	11	63	17
+20	35	72	0	14	70	12
+21	56	59	2	21	30	6
+22	45	41	0	18	50	4
+23	55	60	2	19	39	13
+24	470	150	5	70	32	27
+25	57	20	1	10	30	24
+26	0	1	0	0	0	10
+27	0	0	0	0	0	12
+28	0	1	0	1	0	29
+29	0	0	0	0	0	23
+30	0	0	0	0	0	21
+\.
+
+
+--
+-- TOC entry 3625 (class 0 OID 16813)
+-- Dependencies: 216
+-- Data for Name: stadiums; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.stadiums (stadiumid, stadiumname, city, capacity) FROM stdin;
+1	Old Trafford	Manchester	74879
+2	Camp Nou	Barcelona	99354
+3	San Siro	Milan	80018
+4	Signal Iduna Park	Dortmund	81365
+5	Camp Nou	Barcelona	99929
+6	Stamford Bridge	London	41631
+7	Santiago Bernabéu	Madrid	81044
+8	Allianz Arena	Munich	75000
+9	Anfield	Liverpool	54074
+10	Emirates Stadium	London	60260
+11	Tottenham Hotspur Stadium	London	62850
+12	Celtic Park	Glasgow	60411
+13	Estadio do Dragão	Porto	50033
+14	Johan Cruyff Arena	Amsterdam	55000
+15	MetLife Stadium	New Jersey	82500
+16	Stadio Olimpico	Rome	72698
+17	Olympiastadion	Berlin	74475
+18	Estadio Monumental	Buenos Aires	70074
+19	Estadio Azteca	Mexico City	87523
+20	Maracanã	Rio de Janeiro	78838
+21	King Power Stadium	Leicester	32262
+22	Etihad Stadium	Manchester	55097
+23	Goodison Park	Liverpool	39572
+24	Villa Park	Birmingham	42682
+25	Elland Road	Leeds	37892
+26	Molineux Stadium	Wolverhampton	32050
+27	St. James Park	Newcastle	52305
+28	Selhurst Park	London	25486
+29	Craven Cottage	London	25700
+30	London Stadium	London	66000
+31	National Stadium	Warsaw	58500
+32	Friends Arena	Stockholm	54000
+33	Parken Stadium	Copenhagen	38065
+34	Philips Stadion	Eindhoven	35000
+35	Weserstadion	Bremen	42100
+36	RheinEnergieStadion	Cologne	50000
+37	Ramón Sánchez Pizjuán	Seville	43883
+38	San Mamés	Bilbao	53289
+39	Stade Vélodrome	Marseille	67394
+40	Groupama Stadium	Lyon	59186
+41	King Abdullah Sports City	Jeddah	62345
+42	Hazza Bin Zayed Stadium	Al Ain	25000
+43	Sultan Qaboos Stadium	Muscat	34000
+44	Khalifa International Stadium	Doha	40000
+45	Education City Stadium	Doha	45350
+46	Al Janoub Stadium	Al Wakrah	40000
+47	Al Bayt Stadium	Al Khor	60000
+48	Al Thumama Stadium	Doha	40000
+49	Ahmad bin Ali Stadium	Al Rayyan	40000
+50	Lusail Iconic Stadium	Lusail	80000
+\.
+
+
+--
+-- TOC entry 3627 (class 0 OID 16823)
+-- Dependencies: 218
+-- Data for Name: teams; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.teams (teamid, teamname, city, stadiumid, coachid, leagueid, uclwon) FROM stdin;
+1	Manchester United	Manchester	1	1	1	3
+2	Manchester City	Manchester	22	2	1	1
+3	Inter Milan	Milan	3	3	3	3
+4	Borussia Dortmund	Dortmund	4	4	4	1
+5	FC Barcelona	Barcelona	5	5	2	5
+6	Chelsea	London	6	6	1	1
+7	Real Madrid	Madrid	7	7	2	15
+8	Bayern Munich	Munich	8	8	4	6
+9	Liverpool	Liverpool	9	9	1	6
+10	Arsenal	London	10	10	1	0
+11	Tottenham Hotspur	London	11	11	1	0
+12	Celtic	Glasgow	12	12	8	0
+13	FC Porto	Porto	13	13	7	2
+14	Ajax	Amsterdam	14	14	6	4
+15	New York City FC	New York	15	15	9	0
+16	Lazio	Rome	16	16	3	0
+17	Hertha Berlin	Berlin	17	17	4	0
+18	River Plate	Buenos Aires	18	18	10	0
+19	Club América	Mexico City	19	19	9	0
+20	Flamengo	Rio de Janeiro	20	20	10	0
+21	Leicester City	Leicester	21	21	1	1
+22	Everton	Liverpool	23	23	1	0
+23	Aston Villa	Birmingham	24	24	1	0
+24	Leeds United	Leeds	25	25	1	0
+25	Wolverhampton Wanderers	Wolverhampton	26	26	1	0
+26	Newcastle United	Newcastle	27	27	1	0
+27	Crystal Palace	London	28	28	1	0
+28	Fulham	London	29	29	1	0
+29	West Ham United	London	30	30	1	0
+30	Brentford	London	28	29	1	0
+\.
+
+
+--
+-- TOC entry 3464 (class 2606 OID 16822)
+-- Name: coaches coaches_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.coaches
+    ADD CONSTRAINT coaches_pkey PRIMARY KEY (coachid);
+
+
+--
+-- TOC entry 3460 (class 2606 OID 16812)
+-- Name: leagues leagues_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.leagues
+    ADD CONSTRAINT leagues_pkey PRIMARY KEY (leagueid);
+
+
+--
+-- TOC entry 3470 (class 2606 OID 16857)
+-- Name: matches matches_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT matches_pkey PRIMARY KEY (matchid);
+
+
+--
+-- TOC entry 3468 (class 2606 OID 16847)
+-- Name: players players_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT players_pkey PRIMARY KEY (playerid);
+
+
+--
+-- TOC entry 3472 (class 2606 OID 16878)
+-- Name: playerstats playerstats_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playerstats
+    ADD CONSTRAINT playerstats_pkey PRIMARY KEY (playerid);
+
+
+--
+-- TOC entry 3462 (class 2606 OID 16817)
+-- Name: stadiums stadiums_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.stadiums
+    ADD CONSTRAINT stadiums_pkey PRIMARY KEY (stadiumid);
+
+
+--
+-- TOC entry 3466 (class 2606 OID 16827)
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (teamid);
+
+
+--
+-- TOC entry 3477 (class 2606 OID 16863)
+-- Name: matches matches_awayteamid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT matches_awayteamid_fkey FOREIGN KEY (awayteamid) REFERENCES public.teams(teamid);
+
+
+--
+-- TOC entry 3478 (class 2606 OID 16858)
+-- Name: matches matches_hometeamid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT matches_hometeamid_fkey FOREIGN KEY (hometeamid) REFERENCES public.teams(teamid);
+
+
+--
+-- TOC entry 3479 (class 2606 OID 16868)
+-- Name: matches matches_stadiumid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.matches
+    ADD CONSTRAINT matches_stadiumid_fkey FOREIGN KEY (stadiumid) REFERENCES public.stadiums(stadiumid);
+
+
+--
+-- TOC entry 3476 (class 2606 OID 16848)
+-- Name: players players_teamid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.players
+    ADD CONSTRAINT players_teamid_fkey FOREIGN KEY (teamid) REFERENCES public.teams(teamid);
+
+
+--
+-- TOC entry 3480 (class 2606 OID 16879)
+-- Name: playerstats playerstats_playerid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.playerstats
+    ADD CONSTRAINT playerstats_playerid_fkey FOREIGN KEY (playerid) REFERENCES public.players(playerid);
+
+
+--
+-- TOC entry 3473 (class 2606 OID 16833)
+-- Name: teams teams_coachid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_coachid_fkey FOREIGN KEY (coachid) REFERENCES public.coaches(coachid);
+
+
+--
+-- TOC entry 3474 (class 2606 OID 16838)
+-- Name: teams teams_leagueid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_leagueid_fkey FOREIGN KEY (leagueid) REFERENCES public.leagues(leagueid);
+
+
+--
+-- TOC entry 3475 (class 2606 OID 16828)
+-- Name: teams teams_stadiumid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_stadiumid_fkey FOREIGN KEY (stadiumid) REFERENCES public.stadiums(stadiumid);
+
+
+-- Completed on 2024-06-29 12:59:30 IST
+
+--
+-- PostgreSQL database dump complete
+--
+
