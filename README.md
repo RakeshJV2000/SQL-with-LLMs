@@ -5,7 +5,7 @@
 - Utilized Huggingface's embedding models to transform SQL queries and natural language inputs into vectors, stored in **ChromaDB**
 - Built an end-to-end chain with LLMs, prompt template, and retriever, which showed a 10% increase in querying accuracy
 
-##Key Components and Techniques:
+## Key Components and Techniques:
 
 1. Architecture Design:
 
