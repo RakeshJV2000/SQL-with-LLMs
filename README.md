@@ -5,10 +5,10 @@
 - Utilized Huggingface's embedding models to transform SQL queries and natural language inputs into vectors, stored in **ChromaDB**
 - Built an end-to-end chain with LLMs, prompt template, and retriever, which showed a 10% increase in querying accuracy
 
-Details about DB
+## Details about DB
 A Relational database system to manage football databases. Using Postgres as the database server, a comprehensive database was created that includes tables for leagues, stadiums, coaches, teams, players, matches, and player statistics. The UML model was followed for the implementation, and SQL was incorporated for creating, populating, and querying the database.
 
-Schema
+## Schema
 Includes tables for leagues, stadiums, coaches, teams, players, matches, and player statistics.
 - Leagues(__LeagueID__, LeagueName, Country, NumberOfTeams)
 - Stadiums(__StadiumID__, StadiumName, City, Capacity)
@@ -22,4 +22,4 @@ NumberOfTrophiesWon)
 - Matches(__MatchID__, _ _HomeTeamID_ _, _ _AwayTeamID_ _, MatchDate, _
 _StadiumID_ _, HomeTeamScore, AwayTeamScore)
 
-Primary keys are underlined with a solid line (__PrimaryKey__). Foreign keys are underlined with a dashed line (_ _ForeignKey_ _).
+Primary keys are underlined with Bold style(__PrimaryKey__). Foreign keys are underlined with a dashed line (_ _ForeignKey_ _).
