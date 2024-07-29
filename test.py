@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 from langchain_google_genai import GoogleGenerativeAI
@@ -5,21 +7,19 @@ from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import create_sql_agent
 from langchain.agents.agent_toolkits import create_retriever_tool
 from langchain.prompts import SemanticSimilarityExampleSelector
-import psycopg2
-from langchain_experimental.sql import SQLDatabaseChain
 from few_shots import few_shots
 from langchain_core.prompts import (
     ChatPromptTemplate,
     FewShotPromptTemplate,
     MessagesPlaceholder,
-    PromptTemplate,
     SystemMessagePromptTemplate,
 )
-from langchain.chains.sql_database.prompt import PROMPT_SUFFIX, _mysql_prompt
 from langchain.prompts.prompt import PromptTemplate
-from langchain.agents.mrkl import prompt as react_prompt
 
-db = SQLDatabase.from_uri("postgresql+psycopg2://postgres:rakesh123@localhost/Football")
+load_dotenv()
+
+uri = os.environ["URI"]
+db = SQLDatabase.from_uri(uri)
 llm = GoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=os.environ["GOOGLE_API_KEY"])
 
 embeddings = HuggingFaceEmbeddings(model_name='sentence-transformers/all-MiniLM-L6-v2')
@@ -76,8 +76,6 @@ few_shot_prompt = FewShotPromptTemplate(
         suffix='',
         input_variables=["input", "dialect", "top_k"]
 )
-# chain = SQLDatabaseChain.from_llm(llm, db, prompt=few_shot_prompt)
-# print(chain.run("Find the league with the most matches played"))
 
 full_prompt = ChatPromptTemplate.from_messages(
     [
@@ -95,4 +93,4 @@ agent = create_sql_agent(
     verbose=True,
     agent_type="openai-tools",
 )
-agent.invoke("Find the league with the most matches played")
+agent.invoke({'input':"Find the league with the most matches played"})
